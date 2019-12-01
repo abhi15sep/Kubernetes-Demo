@@ -1,4 +1,4 @@
-Reference
+Reference (http://kubernetesbyexample.com/)
 ==========
 
 MiniKube Setup
@@ -54,4 +54,8 @@ Then comment the swap line.
 Important Notice!! 
 If you are following along with your own setup, make sure to use the below command for setting up Networking with Flannel. The command in the Kubernetes Documentation web site seems to be having an issue.
 kubectl create -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+Kubernetes Concepts - https://kubernetes.io/docs/concepts/
+
+Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
 
