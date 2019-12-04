@@ -116,3 +116,12 @@ Run the command, kubectl expose deployment webapp --type=NodePort --port=8080 --
 Reference:
 https://kubernetes.io/docs/reference/kubectl/conventions/
 
+Namespaces Commands:
+====================
+====================
+kubectl get namespace
+kubectl get pods --namespace=research
+kubectl run redis --image redis --namespace=finance
+
+Which namespace has the 'blue' pod in it?
+kubectl get pods --all-namespaces'
