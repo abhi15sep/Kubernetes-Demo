@@ -66,3 +66,5 @@ Some Useful Command:
 To see Ip Address and Node of the pods, use command: kubectl getpods -o wide
 To extract the definition to a file use: kubectl get pod <pod-name> -o yaml > pod-definition.yaml
 To edit pod properties: kubectl edit pod <pod-name>
+
+To extract the definition to a file use: kubectl get replicaset <rs-name> -o yaml > rs-definition.yaml
