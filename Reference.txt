@@ -68,3 +68,4 @@ To extract the definition to a file use: kubectl get pod <pod-name> -o yaml > po
 To edit pod properties: kubectl edit pod <pod-name>
 
 To extract the definition to a file use: kubectl get replicaset <rs-name> -o yaml > rs-definition.yaml
+To scale replicaset: kubectl scale rs new-replicaset --replicas=5
