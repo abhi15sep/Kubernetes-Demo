@@ -187,3 +187,27 @@ date -s '19 APR 2012 11:14:00'
 kubectl exec -it ubuntu-sleeper -- date -s '19 APR 2012 11:14:00'
 
 https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+
+
+Sercice Accounts:
+==================
+1. How many Service Accounts exist in the default namespace?
+kubectl get serviceaccounts
+
+2. What is the secret token used by the default service account?
+kubectl describe serviceaccount default
+
+3. We just deployed the Dashboard application. Inspect the deployment. What is the image used by the deployment?
+kubectl describe deployment
+
+4. Inspect the Dashboard Application POD and identify the Service Account mounted on it.
+Run command 'kubectl describe pod' and inspect serviceAccount
+
+5. At what location is the ServiceAccount credentials available within the pod?
+Run command 'kubectl describe pod' and look for volume mount path
+
+6. The application needs a ServiceAccount with the Right permissions to be created to authenticate to Kubernetes. The 'default' ServiceAccount has limited access. Create a new ServiceAccount named 'dashboard-sa'.
+Run command 'kubectl create serviceaccount dashboard-sa'
+
+7. Retrieve the Authorization token for the newly created service account , copy it and paste it into the 'token' field of the UI
+Run command 'kubectl describe secret <dashboard-sa-secret-name>' and get the token from the token field.
