@@ -177,3 +177,13 @@ https://kubernetes.io/docs/concepts/configuration/secret/#risks
 3. Having said that, there are other better ways of handling sensitive data like passwords in Kubernetes, such as using tools like Helm Secrets, HashiCorp Vault.
 https://www.vaultproject.io/
 
+Security within Docker and Kubernetes:
+=====================================
+1. What is the user used to execute the sleep process within the 'ubuntu-sleeper' pod?
+kubectl exec ubuntu-sleeper whoami
+
+2. Try to run the below command in the pod 'ubuntu-sleeper' to set the date. Are you allowed to set date on the POD?
+date -s '19 APR 2012 11:14:00'
+kubectl exec -it ubuntu-sleeper -- date -s '19 APR 2012 11:14:00'
+
+https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
