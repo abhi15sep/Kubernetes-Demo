@@ -451,4 +451,74 @@ Look at the Max Unavailable value under RollingUpdateStrategy in deployment deta
 Do not delete and re-create the deployment. Only update the strategy type for the existing deployment.
 Run the command 'kubectl edit deployment frontend' and modify the required field. Make sure to delete the properties of rollingUpdate as well, set at 'strategy.rollingUpdate'.
 
+Jobs And CronJobs:
+==================
+1. Create a Job using this POD definition. Look at how many attempts does it take to get a '6'.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: throw-dice-job
+spec:
+  backoffLimit: 15 # This is so the job does not quit before it succeeds.
+  template:
+    spec:
+      containers:
+      - name: math-add
+        image: kodekloud/throw-dice
+      restartPolicy: Never
+
+2. How many attempts did it take to complete the job
+Run the command 'kubectl describe job throw-dice-job' and add Succeeded and Failed counts.
+
+3. Update the job definition to run as many times as required to get 3 successful 6's
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: throw-dice-job
+spec:
+  completions: 3
+  backoffLimit: 25 # This is so the job does not quit before it succeeds.
+  template:
+    spec:
+      containers:
+      - name: math-add
+        image: kodekloud/throw-dice
+
+4. How many attempts did it take to complete the job this time?
+Run the command 'kubectl describe job throw-dice-job' and add Succeeded and Failed counts.
+
+5. That took a while. Let us try to speed it up, by running upto 3 jobs in parallel.
+Update the job definition to run 3 jobs in parallel.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: throw-dice-job
+spec:
+  completions: 3
+  parallelism: 3
+  backoffLimit: 25 # This is so the job does not quit before it succeeds.
+  template:
+    spec:
+      containers:
+      - name: math-add
+        image: kodekloud/throw-dice
+
+5. Let us now schedule that job to run at 21:30 hours every day.
+Create a CronJob for this
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: throw-dice-cron-job
+spec:
+  schedule: "30 21 * * *"
+  jobTemplate:
+    spec:
+      completions: 3
+      parallelism: 3
+      backoffLimit: 25 # This is so the job does not quit before it succeeds.
+      template:
+        spec:
+          containers:
+          - name: math-add
+            image: kodekloud/throw-dice
 
