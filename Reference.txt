@@ -330,3 +330,48 @@ spec:
               - key: node-role.kubernetes.io/master
                 operator: Exists
 
+MultiContainer Pod:
+===================
+1. Create a multi-container pod with 2 containers.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: yellow
+spec:
+  containers:  - name: lemon
+    image: busybox
+
+  - name: gold
+    image: redismaster
+
+2. The 'app'lication outputs logs to the file /log/app.log. View the logs and try to identify the user having issues with Login
+Run the command 'kubectl exec -it app cat /log/app.log'
+
+3. Edit the pod to add a sidecar container to send logs to ElasticSearch. Mount the log volume to the sidecar container..
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app
+  namespace: elastic-stack
+  labels:
+    name: app
+spec:
+  containers:
+  - name: app
+    image: kodekloud/event-simulator
+    volumeMounts:
+    - mountPath: /log
+      name: log-volume
+  - name: sidecar
+    image: kodekloud/filebeat-configured
+    volumeMounts:    
+    - mountPath: /var/log/event-simulator/
+      name: log-volume
+  volumes:
+  - name: log-volume
+    hostPath:
+      # directory location on host      
+      path: /var/log/webapp
+      # this field is optional      
+      type: DirectoryOrCreatemaster
+
