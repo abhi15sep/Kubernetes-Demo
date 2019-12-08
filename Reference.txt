@@ -258,3 +258,70 @@ Run the command 'kubectl taint nodes master node-role.kubernetes.io/master:NoSch
 
 7. Which node is the POD 'mosquito' on now?
 Run the command 'kubectl get pods -o wide' and look at the Node column
+
+Node Affinity:
+==============
+1. How many Labels exist on node node01?
+Run the command 'kubectl describe node node01' and count the number of labels.
+
+2. Apply a label color=blue to node node01
+Run the command 'kubectl label node node01 color=blue'
+
+3. Create a new deployment named 'blue' with the NGINX image and 6 replicas
+Run the command 'kubectl run blue --image=nginx --replicas=6'
+
+4. Set Node Affinity to the deployment to place the PODs on node01 only
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blue
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: color
+                operator: In
+                values:
+                - blue
+
+5. Create a new deployment named 'red' with the NGINX image and 3 replicas, and ensure it gets placed on the master node only.
+Use the label - node-role.kubernetes.io/master - set on the master node.
+apiVersion: extensions/v1beta1kind: Deployment
+metadata:
+  name: red
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: nginx
+      affinity:
+        nodeAffinity:          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+
