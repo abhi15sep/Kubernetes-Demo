@@ -412,3 +412,43 @@ Run the 'kubectl top pod' command
 
 Identify the POD that consumes the most CPU.
 Run the 'kubectl top pod' command
+
+Label and Selectors:
+=====================
+1. We have deployed a number of PODs. They are labelled with 'tier', 'env' and 'bu'. How many PODs exist in the 'dev' environment?
+Use selectors to filter the output
+Run the command 'kubectl get pods --selector env=dev'
+
+2. How many PODs are in the 'finance' business unit ('bu')?
+Run the command 'kubectl get pods --selector bu=finance'
+
+3. How many objects are in the 'prod' environment including PODs, ReplicaSets and any other objects?
+Run the command 'kubectl get all --selector env=prod'
+
+4. Identify the POD which is 'prod', part of 'finance' BU and is a 'frontend' tier?
+Run the command 'kubectl get all --selector env=prod,bu=finance,tier=frontend'
+
+Rolling Update and Rollback:
+============================
+1. Inspect the deployment and identify the number of PODs deployed by it
+Run the command 'kubectl describe deployment' and look at 'Desired Replicas'
+
+2. What container image is used to deploy the applications?
+Run the command 'kubectl describe deployment' and look for 'Images'
+
+3. Inspect the deployment and identify the current strategy
+Run the command 'kubectl describe deployment' and look at 'StrategyType'
+
+4. Let us try that. Upgrade the application by setting the image on the deployment to 'kodekloud/webapp-color:v2'
+Do not delete and re-create the deployment. Only set the new image name for the existing deployment.
+Run the command 'kubectl edit deployment frontend' and modify the required feild
+
+5. Up to how many PODs can be down for upgrade at a time
+Consider the current strategy settings and number of PODs - 4
+Look at the Max Unavailable value under RollingUpdateStrategy in deployment details
+
+6. Change the deployment strategy to 'Recreate'
+Do not delete and re-create the deployment. Only update the strategy type for the existing deployment.
+Run the command 'kubectl edit deployment frontend' and modify the required field. Make sure to delete the properties of rollingUpdate as well, set at 'strategy.rollingUpdate'.
+
+
