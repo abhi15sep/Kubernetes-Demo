@@ -211,3 +211,8 @@ Run command 'kubectl create serviceaccount dashboard-sa'
 
 7. Retrieve the Authorization token for the newly created service account , copy it and paste it into the 'token' field of the UI
 Run command 'kubectl describe secret <dashboard-sa-secret-name>' and get the token from the token field.
+
+Resource Requirements:
+======================
+1. A pod named 'rabbit' is deployed. Identify the CPU requirements set on the Pod
+Run the command 'kubectl describe pod rabbit' and inspect requests.
