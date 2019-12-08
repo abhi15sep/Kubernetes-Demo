@@ -216,3 +216,45 @@ Resource Requirements:
 ======================
 1. A pod named 'rabbit' is deployed. Identify the CPU requirements set on the Pod
 Run the command 'kubectl describe pod rabbit' and inspect requests.
+
+Taints And Toleration:
+=======================
+1. Do any taints exist on node01?
+Run the command 'kubectl describe node node01' and see the taint property
+
+2. Create a taint on node01 with key of 'spray', value of 'mortein' and effect of 'NoSchedule'
+Run the command 'kubectl taint nodes node01 spray=mortein:NoSchedule'.
+
+3. Create a new pod with the NGINX image, and Pod name as 'mosquito'
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mosquito
+spec:
+  containers:
+  - image: nginx
+    name: mosquitomaster
+
+4. Create another pod named 'bee' with the NGINX image, which has a toleration set to the taint Mortein
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bee
+spec:
+  containers:
+  - image: nginx
+    name: bee
+  tolerations:
+  - key: spray
+    value: mortein
+    effect: NoSchedule
+    operator: Equalmaster
+
+5. Do you see any taints on master node?
+Run the command 'kubectl describe node master' and see the taint property.
+
+6. Remove the taint on master, which currently has the taint effect of NoSchedule
+Run the command 'kubectl taint nodes master node-role.kubernetes.io/master:NoSchedule-'.
+
+7. Which node is the POD 'mosquito' on now?
+Run the command 'kubectl get pods -o wide' and look at the Node column
