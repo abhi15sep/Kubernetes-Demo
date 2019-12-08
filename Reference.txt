@@ -389,3 +389,26 @@ kubectl exec --namespace=kube-public curl -- wget -qO- http://webapp-service.def
 
 3. Sample freeze script.
 nohup kubectl exec --namespace=kube-public curl -- wget -qO- http://webapp-service.default.svc.cluster.local:8080/freeze &
+
+Monitor nodes and pods:
+=======================
+Let us deploy metrics-server to monitor the PODs and Nodes. Pull the git repository for the deployment files.
+https://github.com/kodekloudhub/kubernetes-metrics-server.git
+
+Deploy the metrics-server by creating all the components downloaded.
+Run the 'kubectl create -f .' command from within the downloaded repository.
+
+It takes a few minutes for the metrics server to start gathering data.
+Run the 'kubectl top node' command and wait for a valid output.
+
+Identify the node that consumes the most CPU.
+Run the 'kubectl top node' command
+
+Identify the node that consumes the most Memory.
+Run the 'kubectl top node' command
+
+Identify the POD that consumes the most Memory.
+Run the 'kubectl top pod' command
+
+Identify the POD that consumes the most CPU.
+Run the 'kubectl top pod' command
